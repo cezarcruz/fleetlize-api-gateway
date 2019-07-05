@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
+  instance:
+    prefer-ip-address: true
+
+info:
+  name: Api Gateway
+  version: ${version}
+
+zuul:
+  prefix: /api
+  routes:
+    car-manager:
+      path: /v1/car-manager/**
+      service-id: car-manager
+#      strip-prefix: false
+  ignored-services: '*'
