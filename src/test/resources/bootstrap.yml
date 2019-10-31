@@ -1,0 +1,17 @@
+info:
+  name: Fleetlize Api Gateway
+  description: Api Gateway
+  version: ${version}
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    bus:
+      enabled: false
+    discovery:
+      enabled: false
+    consul:
+      enabled: false
+      config:
+        enabled: false
