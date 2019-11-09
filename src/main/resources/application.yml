@@ -11,4 +11,10 @@ zuul:
     car-manager:
       path: /v1/car-manager/**
       service-id: car-manager
+    booking-manager:
+      path: /v1/booking-manager/**
+      service-id: booking-manager
+    rating-manager:
+      path: /v1/rating-manager/**
+      service-id: rating-manager
   ignored-services: '*'
