@@ -2,6 +2,11 @@ spring:
   application:
     name: api-gateway
   cloud:
+    bus:
+      enabled: ${CONSUL_ENABLED:false}
+    discovery:
+      enabled: ${CONSUL_ENABLED:false}
     consul:
+      enabled: ${CONSUL_ENABLED:false}
       config:
-        enabled: true
+        enabled: ${CONSUL_ENABLED:false}
