@@ -1,3 +1,6 @@
+logging:
+  file: ${LOG_PATH:/tmp/api-gateway.log}
+
 server:
   port: 8080
 
