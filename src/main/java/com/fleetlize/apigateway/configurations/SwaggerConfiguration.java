@@ -1,6 +1,7 @@
 package com.fleetlize.apigateway.configurations;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.netflix.zuul.filters.RouteLocator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,35 +17,35 @@ import java.util.stream.Collectors;
 
 @Primary
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SwaggerConfiguration implements SwaggerResourcesProvider {
 
-    private RouteLocator routeLocator;
+  private final RouteLocator routeLocator;
 
-    @Bean
-    public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .paths(PathSelectors.any()).build()
-                .pathMapping("/");
-    }
+  @Bean
+  public Docket createRestApi() {
+    return new Docket(DocumentationType.SWAGGER_2)
+        .select()
+        .paths(PathSelectors.any()).build()
+        .pathMapping("/");
+  }
 
+  @Override
+  public List<SwaggerResource> get() {
 
-    @Override
-    public List<SwaggerResource> get() {
+    return routeLocator.getRoutes()
+        .stream()
+        .map(route -> swaggerResource(route.getId(),
+            route.getFullPath().replace("**", "v2/api-docs")))
+        .collect(Collectors.toList());
 
-        return routeLocator.getRoutes()
-                    .stream()
-                    .map(route -> swaggerResource(route.getId(), route.getFullPath().replace("**", "v2/api-docs")))
-                    .collect(Collectors.toList());
+  }
 
-    }
-
-    private SwaggerResource swaggerResource(final String name,
-                                            final String location) {
-        final SwaggerResource swaggerResource = new SwaggerResource();
-        swaggerResource.setName(name);
-        swaggerResource.setLocation(location);
-        return swaggerResource;
-    }
+  private SwaggerResource swaggerResource(final String name,
+      final String location) {
+    final SwaggerResource swaggerResource = new SwaggerResource();
+    swaggerResource.setName(name);
+    swaggerResource.setLocation(location);
+    return swaggerResource;
+  }
 }
